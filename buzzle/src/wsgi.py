@@ -1,5 +1,4 @@
 from os import path
-
 from aiohttp.web import Application, Response, run_app
 
 import buzzle
@@ -14,7 +13,13 @@ async def post(request):
     await storage.store_file(file.filename, file)
     return Response(text='Ok')
 
+async def get(request):
+    key, value = request.query_string.split('=')
+    file = await storage.get_file(value)
+    return Response(text=file.decode())
+
 buzzle = Application()
-buzzle.router.add_post('/', post)
+buzzle.router.add_post('/apiv1/', post)
+buzzle.router.add_get('/apiv1/', get)
 
 run_app(buzzle)

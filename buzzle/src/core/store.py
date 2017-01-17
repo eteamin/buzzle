@@ -18,4 +18,4 @@ class Storage(object):
         self.r.set(filename, storage_path)
 
     async def get_file(self, filename):
-        await self.r.get(filename)
+        return self.r.get(filename)
