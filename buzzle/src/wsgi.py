@@ -21,3 +21,5 @@ async def get(request):
 buzzle_app = Application()
 buzzle_app.router.add_post('/apiv1/', post)
 buzzle_app.router.add_get('/apiv1/', get)
+
+run_app(buzzle_app)

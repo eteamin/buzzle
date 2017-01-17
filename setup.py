@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 testpkgs = [
-    'pytest-asyncio'
+
 ]
 install_requires = [
     'redis',
