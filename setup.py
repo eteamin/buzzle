@@ -2,10 +2,16 @@
 
 from setuptools import setup, find_packages
 
+
+testpkgs = [
+    'pytest-asyncio'
+]
 install_requires = [
     'redis',
-    'aiohttp'
+    'aiohttp',
+    'aiofiles'
 ]
+
 setup(
     name='buzzle',
     version='0.1',
@@ -15,6 +21,6 @@ setup(
     url='https://github.com/eteamin/buzzle',
     packages=find_packages(exclude=['ez_setup']),
     install_requires=install_requires,
+    tests_require=testpkgs,
     include_package_data=True,
-    test_suite='nose.collector',
 )
