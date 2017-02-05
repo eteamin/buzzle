@@ -4,8 +4,8 @@ import aiofiles
 
 
 class Content(object):
-    def __init__(self, path, redis_connection):
-        self.path = path
+    def __init__(self, storage_path, redis_connection):
+        self.storage_path = storage_path
         self.r = redis_connection
 
     async def store(self, file, filename):
@@ -26,4 +26,4 @@ class Content(object):
         remove(file_path)
 
     def _file_path(self, filename):
-        return '{}/{}'.format(self.path, filename)
+        return '{}/{}'.format(self.storage_path, filename)
