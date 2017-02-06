@@ -91,3 +91,7 @@ ENV/
 
 # Pycharm
 .idea/
+
+# Project
+buzzle/storage
+buzzle/test_storage
