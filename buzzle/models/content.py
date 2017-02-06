@@ -8,22 +8,22 @@ class Content(object):
         self.storage_path = storage_path
         self.r = redis_connection
 
-    async def store(self, file, filename):
-        file_path = self._file_path(filename)
-        async with aiofiles.open(file_path, 'wb') as stored_file:
+    async def store(self, content, content_name):
+        content_path = self._file_path(content_name)
+        async with aiofiles.open(content_path, 'wb') as stored_content:
             while True:
-                chunk = await file.read_chunk()
+                chunk = await content.read_chunk()
                 if not chunk:
                     break
-                await stored_file.write(chunk)
-        self.r.set(filename, file_path)
+                await stored_content.write(chunk)
+        self.r.set(content_name, content_path)
 
-    def retrieve(self, filename):
-        return self.r.get(filename)
+    def retrieve(self, content_name):
+        return self.r.get(content_name)
 
-    def delete(self, filename):
-        file_path = self.retrieve(filename)
-        remove(file_path)
+    def delete(self, content_name):
+        content_path = self.retrieve(content_name)
+        remove(content_path)
 
-    def _file_path(self, filename):
-        return '{}/{}'.format(self.storage_path, filename)
+    def _file_path(self, content_name):
+        return '{}/{}'.format(self.storage_path, content_name)
