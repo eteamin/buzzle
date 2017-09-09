@@ -92,6 +92,8 @@ ENV/
 # Pycharm
 .idea/
 
-# Project
+# Storage
 buzzle/storage
 buzzle/test_storage
+
+production.yaml

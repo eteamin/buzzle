@@ -27,3 +27,5 @@ class Content(object):
 
     def _file_path(self, content_name):
         return '{}/{}'.format(self.storage_path, content_name)
+
+
