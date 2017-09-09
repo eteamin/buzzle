@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 testpkgs = [
-
+    'pytest-aiohttp'
 ]
 install_requires = [
     'aiopg',

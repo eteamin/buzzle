@@ -32,8 +32,6 @@ def make_app():
     onlinelux = Application()
     onlinelux['config'] = load_conf()
 
-    onlinelux.router.add_static('/storage', STORAGE_PATH)
-
     # Setup DB
     onlinelux.on_startup.append(init_pg)
 
