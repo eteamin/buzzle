@@ -22,5 +22,5 @@ async def test_post_content(f):
         filename='ok.png'
     )
 
-    resp = await f.post('/api/content', data=data)
-    assert await resp.json().get('ok') is True
+    async with await f.post('/api/content', data=data) as resp:
+        assert await resp.json() == {'ok': True}

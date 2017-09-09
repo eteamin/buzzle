@@ -31,6 +31,7 @@ async def close_pg(app):
 
 def make_app(test=False):
     onlinelux = Application()
+    onlinelux['storage'] = STORAGE_PATH
     onlinelux['config'] = load_conf(test)
 
     # Assign Routes
