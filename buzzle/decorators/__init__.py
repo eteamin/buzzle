@@ -1,6 +1,6 @@
 
 
-def db_session():
+def flush():
     def decorator(handler):
         async def wrapper(request, *a, **kw):
             # Executing the handler inside a db context

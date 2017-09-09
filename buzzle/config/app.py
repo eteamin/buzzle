@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
-import json
+import yaml
 from os import path
 
 from aiohttp.web import run_app, Application
 
 from buzzle.database.session import PostgreSqlEngine
+from buzzle.config.routes import routes
 
 
 STORAGE_PATH = path.abspath(path.join(path.dirname(__file__), '..', 'storage'))
 
 
-def load_conf():
-    config_file = path.abspath(path.join(path.dirname(__file__), '..', 'development.yaml'))
+def load_conf(test):
+    file = 'development.yaml' if not test else 'test.yaml'
+    config_file = path.abspath(path.join(path.dirname(__file__), '..', file))
     with open(config_file, 'r') as c:
-        return json.load(c)
+        return yaml.load(c)
 
 
 async def init_pg(app):
@@ -24,13 +26,16 @@ async def init_pg(app):
 
 
 async def close_pg(app):
-    app['db'].close()
-    await app['db'].wait_closed()
+    await app['db'].shutdown()
 
 
-def make_app():
+def make_app(test=False):
     onlinelux = Application()
-    onlinelux['config'] = load_conf()
+    onlinelux['config'] = load_conf(test)
+
+    # Assign Routes
+    for r in routes():
+        onlinelux.router.add_route(r.method, r.path, r.handler)
 
     # Setup DB
     onlinelux.on_startup.append(init_pg)

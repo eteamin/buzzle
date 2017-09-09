@@ -6,7 +6,7 @@ postgres.user: 'buzzle'
 postgres.password: '1234'
 postgres.host: 'localhost'
 postgres.port: 5432
-postgres.db: 'buzzle'
+postgres.db: 'buzzle_test'
 
 storage.path: 'storage/'
 

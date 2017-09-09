@@ -9,7 +9,8 @@ testpkgs = [
 install_requires = [
     'aiopg',
     'aiohttp',
-    'aiofiles'
+    'aiofiles',
+    'pyyaml'
 ]
 
 setup(
