@@ -23,4 +23,5 @@ async def test_post_content(f):
     )
 
     async with await f.post('/api/content', data=data) as resp:
-        assert await resp.json() == {'ok': True}
+        _resp = await resp.json()
+        assert _resp.get('content_uid') > 0

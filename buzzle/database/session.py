@@ -102,7 +102,7 @@ class PostgreSqlEngine(object):
 
     async def execute(self, query: str, *, params=None):
         async with await self.session() as session:
-            await session.execute(query, params=params)
+            return await session.execute(query, params=params)
 
     async def __aenter__(self):
         await self.initialize()

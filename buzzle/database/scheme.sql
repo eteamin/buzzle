@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS CONTENTS (
+          CONTENT_UID   SERIAL          NOT NULL PRIMARY KEY,
+          NAME          VARCHAR(64)     NOT NULL,
+          UUID          VARCHAR(64)     NOT NULL,
+          IS_DELETED    BOOLEAN         NOT NULL,
+          CREATION_TIME TIMESTAMP       NOT NULL
+);
