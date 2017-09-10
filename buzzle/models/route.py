@@ -5,3 +5,9 @@ class Route:
         self.method = method
         self.path = path
         self.handler = handler
+
+
+class Resource:
+    def __init__(self, path: str, route: Route):
+        self.path = path
+        self.route = route

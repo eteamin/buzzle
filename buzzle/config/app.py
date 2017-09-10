@@ -5,7 +5,7 @@ from os import path
 from aiohttp.web import run_app, Application
 
 from buzzle.database.session import PostgreSqlEngine
-from buzzle.config.routes import routes
+from buzzle.config.routes import routes, resources
 
 
 STORAGE_PATH = path.abspath(path.join(path.dirname(__file__), '..', 'storage'))
@@ -30,21 +30,25 @@ async def close_pg(app):
 
 
 def make_app(test=False):
-    onlinelux = Application()
-    onlinelux['storage'] = STORAGE_PATH
-    onlinelux['config'] = load_conf(test)
+    buzzle = Application()
+    buzzle['storage'] = STORAGE_PATH
+    buzzle['config'] = load_conf(test)
 
     # Assign Routes
     for r in routes():
-        onlinelux.router.add_route(r.method, r.path, r.handler)
+        buzzle.router.add_route(r.method, r.path, r.handler)
+
+    for r in resources():
+        resource = buzzle.router.add_resource(r.path)
+        resource.add_route(r.route.method, r.route.handler)
 
     # Setup DB
-    onlinelux.on_startup.append(init_pg)
+        buzzle.on_startup.append(init_pg)
 
     # Some DB clean-up stuff
-    onlinelux.on_cleanup.append(close_pg)
+        buzzle.on_cleanup.append(close_pg)
 
-    return onlinelux
+    return buzzle
 
 
 if __name__ == '__main__':

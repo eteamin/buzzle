@@ -50,3 +50,15 @@ class Content(object):
         rows = await session.execute(insert_query)
         row = await rows.fetchone()
         return row[0]
+
+    @classmethod
+    async def one_or_none(cls, session, content_uid):
+        select_query = """
+        SELECT (UUID, NAME) FROM CONTENTS WHERE (CONTENT_UID = '%s')
+        """ % (content_uid)
+        result = await session.execute(select_query)
+        if not result.rowcount:
+            return None
+        row = await result.fetchone()
+        return row[0].replace(')', '').replace('(', '').split(',')
+
