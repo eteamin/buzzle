@@ -1,9 +1,11 @@
 from uuid import uuid1
-from os import remove, path, mkdir
+from os import path, mkdir
 from datetime import datetime
 
 import aiofiles
 from aiohttp.multipart import MultipartReader
+
+from buzzle.database.queries import insert_content, select_content
 
 
 class Content(object):
@@ -42,23 +44,8 @@ class Content(object):
 
     @classmethod
     async def insert(cls, session, i):
-        insert_query = """
-        INSERT INTO CONTENTS (NAME, UUID, iS_DELETED, CREATION_TIME)
-        VALUES ('%s', '%s', '%s', '%s')
-        RETURNING CONTENT_UID
-        """ % (i.name, i.uuid, i.is_deleted, i.creation_time)
-        rows = await session.execute(insert_query)
-        row = await rows.fetchone()
-        return row[0]
+        return await insert_content(session, i)
 
     @classmethod
     async def one_or_none(cls, session, content_uid):
-        select_query = """
-        SELECT (UUID, NAME) FROM CONTENTS WHERE (CONTENT_UID = '%s')
-        """ % (content_uid)
-        result = await session.execute(select_query)
-        if not result.rowcount:
-            return None
-        row = await result.fetchone()
-        return row[0].replace(')', '').replace('(', '').split(',')
-
+        return await select_content(session, content_uid)
