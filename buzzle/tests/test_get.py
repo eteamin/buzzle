@@ -6,7 +6,7 @@ import aiofiles
 from aiohttp import FormData
 from pytest import fixture
 
-from buzzle.tests import test_fixture
+from buzzle.tests import test_fixture, auth_headers, TEST_STUFF
 
 f = test_fixture
 
@@ -16,11 +16,11 @@ async def setup(func):
     data = FormData()
     data.add_field(
         'file',
-        open('stuff/ok.png', 'rb'),
+        open(TEST_STUFF, 'rb'),
         filename='ok.png'
     )
 
-    async with await func.post('/api/contents', data=data) as resp:
+    async with await func.post('/api/contents', data=data, headers=auth_headers()) as resp:
         _resp = await resp.json()
         return _resp.get('content_uid')
 
@@ -30,7 +30,7 @@ async def test_get(f):
 
     path_to_file = path.join(mkdtemp(), str(uuid1()))
 
-    async with await f.get('/api/contents/{}'.format(content_uid)) as resp:
+    async with await f.get('/api/contents/{}'.format(content_uid), headers=auth_headers()) as resp:
         async with aiofiles.open(path_to_file, 'wb') as tmp:
             while True:
                 chunk = await resp.content.read(2048)
@@ -38,7 +38,7 @@ async def test_get(f):
                     break
                 await tmp.write(chunk)
 
-    assert md5(path_to_file) == md5('stuff/ok.png')
+    assert md5(path_to_file) == md5(TEST_STUFF)
 
 
 def md5(fname):

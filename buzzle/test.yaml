@@ -11,3 +11,5 @@ postgres.db: 'buzzle_test'
 storage.path: 'storage/'
 
 base_url: 'http://localhost:8585'
+secret_key: 'secret_key'
+secret_code: 'secret_code'

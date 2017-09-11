@@ -10,7 +10,8 @@ install_requires = [
     'aiopg',
     'aiohttp',
     'aiofiles',
-    'pyyaml'
+    'pyyaml',
+    'pyjwt'
 ]
 
 setup(
